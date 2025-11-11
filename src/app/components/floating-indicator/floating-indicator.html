@@ -1,0 +1,77 @@
+<div class="floating-indicator" [class.expanded]="isExpanded()">
+  <!-- Indicador compacto -->
+  <div class="compact-view" *ngIf="!isExpanded()">
+    <div class="status-icon" [class.running]="isRunning()" (click)="toggleExpanded()">
+      <mat-icon>{{ isRunning() ? 'visibility' : 'visibility_off' }}</mat-icon>
+    </div>
+    
+    <div class="time-display" (click)="toggleExpanded()">
+      {{ formattedTime() }}
+    </div>
+    
+    <button 
+      mat-mini-fab 
+      color="primary"
+      class="action-button"
+      (click)="toggleTimer()"
+      [attr.aria-label]="isRunning() ? 'Pausar' : 'Continuar'">
+      <mat-icon>{{ isRunning() ? 'pause' : 'play_arrow' }}</mat-icon>
+    </button>
+    
+    <button 
+      mat-icon-button 
+      class="settings-button"
+      (click)="showSettings()"
+      aria-label="Configuración">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+  
+  <!-- Vista expandida -->
+  <div class="expanded-view" *ngIf="isExpanded()">
+    <div class="header">
+      <h4>{{ sessionTypeLabel() }}</h4>
+      <button mat-icon-button (click)="toggleExpanded()" aria-label="Contraer">
+        <mat-icon>expand_less</mat-icon>
+      </button>
+    </div>
+    
+    <div class="timer-section">
+      <div class="time-large">{{ formattedTime() }}</div>
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="progress()"
+        class="mini-progress">
+      </mat-progress-bar>
+    </div>
+    
+    <div class="info-section">
+      <p class="session-info">Goal {{ session().currentGoal }} de {{ config().totalGoals }}</p>
+    </div>
+    
+    <div class="controls-section">
+      <button mat-icon-button (click)="resetSession()" aria-label="Resetear">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      
+      <button 
+        mat-fab 
+        color="primary" 
+        (click)="toggleTimer()"
+        [attr.aria-label]="isRunning() ? 'Pausar' : 'Continuar'">
+        <mat-icon>{{ isRunning() ? 'pause' : 'play_arrow' }}</mat-icon>
+      </button>
+      
+      <button mat-icon-button (click)="skipSession()" aria-label="Siguiente">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+    </div>
+    
+    <div class="footer-actions">
+      <button mat-button (click)="showSettings()" class="secondary-button">
+        <mat-icon>settings</mat-icon>
+        Configurar
+      </button>
+    </div>
+  </div>
+</div>

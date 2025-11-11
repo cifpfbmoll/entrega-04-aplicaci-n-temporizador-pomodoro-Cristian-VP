@@ -1,0 +1,70 @@
+<div class="session-container">
+  <!-- Header con información de goals -->
+  <div class="session-header">
+    <h3>{{ sessionTypeLabel() }}</h3>
+    <p class="goal-info">Goal {{ session().currentGoal }} de {{ config().totalGoals }}</p>
+    <p class="time-info">
+      Trabajo: {{ config().workDuration }}min | 
+      Descanso: {{ config().shortBreakDuration }}min | 
+      Descanso largo: {{ config().longBreakDuration }}min
+    </p>
+  </div>
+  
+  <!-- Timer central -->
+  <div class="timer-display">
+    <h1>{{ formattedTime() }}</h1>
+  </div>
+  
+  <!-- Progress bar -->
+  <mat-progress-bar 
+    mode="determinate" 
+    [value]="progress()"
+    class="custom-progress-bar">
+  </mat-progress-bar>
+  
+  <!-- Información sobre inicio automático -->
+  @if (config().autoStartNext) {
+    <p class="auto-start-info">✓ Las sesiones se iniciarán automáticamente</p>
+  } @else {
+    <p class="auto-start-info">⏸ Deberás iniciar cada sesión manualmente</p>
+  }
+  
+  <!-- Footer con controles (solo iconos) -->
+  <div class="controls-footer">
+    <button 
+      mat-icon-button 
+      (click)="onReset()"
+      aria-label="Resetear sesión"
+      class="control-button">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    
+    @if (isRunning()) {
+      <button 
+        mat-fab 
+        color="primary"
+        (click)="onPause()"
+        aria-label="Pausar"
+        class="primary-button">
+        <mat-icon>pause</mat-icon>
+      </button>
+    } @else {
+      <button 
+        mat-fab 
+        color="primary"
+        (click)="onStart()"
+        aria-label="Iniciar"
+        class="primary-button">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    }
+    
+    <button 
+      mat-icon-button 
+      (click)="onSkip()"
+      aria-label="Siguiente sesión"
+      class="control-button">
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+<div class="configuration-container">
+  <mat-stepper #stepper orientation="vertical" class="config-stepper" [linear]="false">
+    
+    <!-- Paso 1: Goals -->
+    <mat-step label="Goals" [completed]="step1Completed()">
+      <div class="step-content">
+        <h4>¿Cuántos pomodoros quieres completar?</h4>
+        <p class="step-description">Elige la cantidad de sesiones de trabajo que deseas realizar</p>
+        
+        <div class="input-group">
+          <label>Número de goals:</label>
+          <input 
+            type="number" 
+            min="1" 
+            max="20" 
+            [(ngModel)]="tempConfig.totalGoals"
+            (ngModelChange)="validateStep1()"
+            class="form-input">
+          <small>Entre 1 y 20 goals</small>
+        </div>
+        
+        <div class="step-actions">
+          <button mat-raised-button color="primary" (click)="nextStep(stepper)" [disabled]="!step1Completed()">
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    
+    <!-- Paso 2: Tiempo de trabajo -->
+    <mat-step label="Tiempo de trabajo" [completed]="step2Completed()">
+      <div class="step-content">
+        <h4>¿Cuántos minutos por sesión de trabajo?</h4>
+        <p class="step-description">Duración de cada pomodoro de trabajo</p>
+        
+        <div class="input-group">
+          <label>Minutos de trabajo:</label>
+          <input 
+            type="number" 
+            min="1" 
+            max="60" 
+            [(ngModel)]="tempConfig.workDuration"
+            (ngModelChange)="validateStep2()"
+            class="form-input">
+          <small>Entre 1 y 60 minutos</small>
+        </div>
+        
+        <div class="step-actions">
+          <button mat-button (click)="stepper.previous()">Anterior</button>
+          <button mat-raised-button color="primary" (click)="nextStep(stepper)" [disabled]="!step2Completed()">
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    
+    <!-- Paso 3: Tiempos de descanso y configuración final -->
+    <mat-step label="Descansos y Opciones" [completed]="step3Completed()">
+      <div class="step-content">
+        <h4>Configura tus descansos</h4>
+        <p class="step-description">Tiempo entre pomodoros y descanso largo cada 4 sesiones</p>
+        
+        <div class="input-group">
+          <label>Descanso corto (minutos):</label>
+          <input 
+            type="number" 
+            min="1" 
+            max="60" 
+            [(ngModel)]="tempConfig.shortBreakDuration"
+            (ngModelChange)="validateStep3()"
+            class="form-input">
+          <small>Entre 1 y 60 minutos</small>
+        </div>
+        
+        <div class="input-group">
+          <label>Descanso largo (minutos):</label>
+          <input 
+            type="number" 
+            min="1" 
+            max="60" 
+            [(ngModel)]="tempConfig.longBreakDuration"
+            (ngModelChange)="validateStep3()"
+            class="form-input">
+          <small>Entre 1 y 60 minutos</small>
+        </div>
+        
+        <!-- Opciones adicionales -->
+        <div class="options-section">
+          <h5>Opciones adicionales</h5>
+          
+          <div class="toggle-option">
+            <mat-slide-toggle [(ngModel)]="tempConfig.autoStartNext">
+              Iniciar automáticamente la siguiente sesión
+            </mat-slide-toggle>
+            <p class="toggle-description">
+              Las sesiones se iniciarán automáticamente tras un breve delay
+            </p>
+          </div>
+          
+          <div class="toggle-option">
+            <mat-slide-toggle [(ngModel)]="tempConfig.notifications">
+              Mostrar notificaciones del sistema
+            </mat-slide-toggle>
+            <p class="toggle-description">
+              Recibirás notificaciones cuando cambien las sesiones
+            </p>
+          </div>
+        </div>
+        
+        <!-- Resumen de configuración -->
+        <div class="config-summary">
+          <h5>Resumen de tu configuración:</h5>
+          <ul>
+            <li><strong>Goals:</strong> {{ tempConfig.totalGoals }}</li>
+            <li><strong>Trabajo:</strong> {{ tempConfig.workDuration }} minutos</li>
+            <li><strong>Descanso corto:</strong> {{ tempConfig.shortBreakDuration }} minutos</li>
+            <li><strong>Descanso largo:</strong> {{ tempConfig.longBreakDuration }} minutos</li>
+            <li><strong>Auto-inicio:</strong> {{ tempConfig.autoStartNext ? 'Sí' : 'No' }}</li>
+            <li><strong>Notificaciones:</strong> {{ tempConfig.notifications ? 'Sí' : 'No' }}</li>
+          </ul>
+        </div>
+        
+        <div class="step-actions">
+          <button mat-button (click)="stepper.previous()">Anterior</button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="saveConfiguration()"
+            [disabled]="!step3Completed()">
+            <mat-icon>save</mat-icon>
+            Guardar configuración
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    
+  </mat-stepper>
+</div>

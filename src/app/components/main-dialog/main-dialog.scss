@@ -1,0 +1,33 @@
+.main-dialog {
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  ::ng-deep {
+    .mat-mdc-tab-header {
+      background-color: var(--tomato-color);
+      
+      .mat-mdc-tab-labels {
+        .mdc-tab {
+          color: rgba(255, 255, 255, 0.7);
+          
+          &.mdc-tab--active {
+            color: white;
+          }
+        }
+        
+        .mat-mdc-tab-label-content {
+          color: inherit;
+        }
+      }
+      
+      .mat-mdc-tab-header-pagination-chevron {
+        border-color: white;
+      }
+    }
+    
+    .mdc-tab-indicator__content--underline {
+      border-color: white;
+    }
+  }
+}
